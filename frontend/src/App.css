@@ -1,9 +1,11 @@
 .App {
   text-align: center;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 11vmin;
   pointer-events: none;
 }
 
@@ -24,10 +26,6 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -35,4 +33,90 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.title-with-logo {
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn {
+  display: inline-flex;
+  margin: 10px auto;
+  padding: 0.75em;
+  text-decoration: none;
+  color: white;
+  background-color: #10a7ff;
+  border: 1px;
+  border-radius: 5px;
+  font-size: 12pt;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0c8de4;
+}
+
+.btn-cancel {
+  background-color: #ff4d4d;
+  margin-left: 10px;
+}
+
+.btn-cancel:hover {
+  background-color: #e63939;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 500px;
+}
+
+.title-with-logo {
+  display: inline-flex;
+  align-items: center;
+}
+
+.title-text {
+  margin-left: 10px;
+}
+
+.App-logo {
+  height: 40px;
+  width: 40px;
+}
+
+.captcha-wrapper {
+  display: flex;
+  margin-top: 1em;
+  flex-direction: column;
+  align-items: center;
+}
+
+input, textarea {
+  margin: 10px 0.5em;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 12pt;
+  font-family: sourcecode-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+textarea {
+  height: 100px;
+  width: 85%;
 }
