@@ -1,22 +1,34 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import cors from 'cors';
 import nodemailer from 'nodemailer';
+import cors from 'cors';
+import path from 'path';
+import { config } from 'dotenv';
+
+config({ path: '.env' });
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static('build'));
+
+const apiKey = process.env.SENDGRID_API_KEY;
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 app.post('/send-email', async (req, res) => {
   const { name, email, message } = req.body;
 
   const transporter = nodemailer.createTransport({
-    service: 'Gmail',
+    host: 'smtp.sendgrid.net',
+    port: 587,
     auth: {
-      user: 'YOUR_EMAIL@gmail.com',
-      pass: 'YOUR_PASSWORD'
+      user: 'apikey', // Don't change this
+      pass: apiKey
     }
-  });
+  });  
 
   const mailOptions = {
     from: email,

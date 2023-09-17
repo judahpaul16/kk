@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
+import { config } from 'dotenv';
+
+config({ path: '../../.env' });
 
 const Contact: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -15,6 +18,20 @@ const Contact: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
       return;
     }
     // Make API call to send email
+    const response = await fetch('/send-email', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            },
+        body: JSON.stringify(formData),
+    });
+    const data = await response.json();
+    if (data.status === 'success') {
+        closeModal();
+        }
+    else if (data.status === 'fail') {
+        setError('Something went wrong. Please try again.');
+    }
   };
 
   return (
@@ -27,7 +44,7 @@ const Contact: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
           <input type="email" name="email" placeholder="Email" onChange={handleInputChange} />
           <textarea name="message" placeholder="Your Message" onChange={handleInputChange}></textarea>
           <div className="captcha-wrapper">
-            <ReCAPTCHA sitekey="YOUR_GOOGLE_RECAPTCHA_KEY" />
+            <ReCAPTCHA sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY || ''} /> 
           </div>
           <button type="button" className='btn' onClick={handleSubmit}>Submit</button>
           <button type="button" className='btn btn-cancel' onClick={closeModal}>Cancel</button>
