@@ -3,7 +3,7 @@
 1. Install
     
     ```bash 
-        npm install
+    npm install
     ```
 
 2. Run
