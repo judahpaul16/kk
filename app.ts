@@ -1,30 +1,29 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import nodemailer from 'nodemailer';
-import fetch from 'node-fetch'; // For CAPTCHA verification
-import cors from 'cors';
-import path from 'path';
-import cluster from 'cluster';
-import { config } from 'dotenv';
+const express = require('express');
+const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer');
+const cors = require('cors');
+const path = require('path');
+const cluster = require('cluster');
+const dotenv = require('dotenv');
+
+dotenv.config({ path: '.env' });
 
 interface CaptchaData {
   success: boolean;
 }
 
-config({ path: '.env' });
-
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('frontend/build'));
+app.use(express.static(path.join(__dirname, '../public_html')));
 
 const apiKey = process.env.SENDGRID_API_KEY;
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
+app.get('/', (req: any, res: any) => {
+  res.sendFile(path.join(__dirname, '../public_html', 'index.html'));
 });
 
-app.post('/send-email', async (req, res) => {
+app.post('/send-email', async (req: any, res: any) => {
   const { name, email, message, recaptchaValue } = req.body;
 
   // Verify CAPTCHA
@@ -35,7 +34,7 @@ app.post('/send-email', async (req, res) => {
     method: 'POST',
   });
   const captchaData = await captchaResponse.json() as CaptchaData;
-  
+
   if (!captchaData.success) {
     return res.status(400).send({ status: 'Captcha verification failed' });
   }
@@ -45,23 +44,23 @@ app.post('/send-email', async (req, res) => {
     port: 587,
     auth: {
       user: 'apikey', // Don't change this
-      pass: apiKey
-    }
-  });  
+      pass: apiKey,
+    },
+  });
 
   const mailOptions = {
     from: email,
     to: 'me@kevinkirton.com',
     subject: 'New Contact Message',
-    text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
+    text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
+  transporter.sendMail(mailOptions, (error: any, info: any) => {
     if (error) {
       return res.status(500).send({ error });
     }
     res.status(200).send({ info });
-  });
+  });  
 });
 
 if (cluster.isPrimary) {
@@ -70,4 +69,4 @@ if (cluster.isPrimary) {
   });
 }
 
-export default app;
+module.exports = app;

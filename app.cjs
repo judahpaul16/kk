@@ -1,19 +1,19 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import nodemailer from 'nodemailer';
-import fetch from 'node-fetch'; // For CAPTCHA verification
-import cors from 'cors';
-import path from 'path';
-import cluster from 'cluster';
-import { config } from 'dotenv';
-config({ path: '.env' });
+"use strict";
+const express = require('express');
+const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer');
+const cors = require('cors');
+const path = require('path');
+const cluster = require('cluster');
+const dotenv = require('dotenv');
+dotenv.config({ path: '.env' });
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('frontend/build'));
+app.use(express.static(path.join(__dirname, '../public_html')));
 const apiKey = process.env.SENDGRID_API_KEY;
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../public_html', 'index.html'));
 });
 app.post('/send-email', async (req, res) => {
     const { name, email, message, recaptchaValue } = req.body;
@@ -32,14 +32,14 @@ app.post('/send-email', async (req, res) => {
         port: 587,
         auth: {
             user: 'apikey',
-            pass: apiKey
-        }
+            pass: apiKey,
+        },
     });
     const mailOptions = {
         from: email,
         to: 'me@kevinkirton.com',
         subject: 'New Contact Message',
-        text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
+        text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
     };
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
@@ -53,4 +53,4 @@ if (cluster.isPrimary) {
         console.log('Server running on port 3001');
     });
 }
-export default app;
+module.exports = app;
