@@ -15,12 +15,12 @@ interface CaptchaData {
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '../public_html')));
+app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 const apiKey = process.env.SENDGRID_API_KEY;
 
 app.get('/', (req: any, res: any) => {
-  res.sendFile(path.join(__dirname, '../public_html', 'index.html'));
+  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
 });
 
 app.post('/send-email', async (req: any, res: any) => {
