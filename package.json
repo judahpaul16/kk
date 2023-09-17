@@ -7,8 +7,9 @@
   "scripts": {
     "start": "npm run build && node dist/server.js",
     "build": "tsc && cd frontend && npm run build && cd ..",
+    "postbuild": "if [ \"$(uname)\" = \"Linux\" ]; then cp -r dist/ ../public_html/ && cp -r frontend/build/ ../public_html/; fi",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  },  
   "repository": {
     "type": "git",
     "url": "git+https://github.com/judahpaul16/kk.git"
