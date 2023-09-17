@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
 const path = require('path');
-const cluster = require('cluster');
 const dotenv = require('dotenv');
+const port = process.env.PORT || 3000;
 dotenv.config({ path: '.env' });
 const app = express();
 app.use(cors());
@@ -48,9 +48,13 @@ app.post('/send-email', async (req, res) => {
         res.status(200).send({ info });
     });
 });
-if (cluster.isPrimary) {
-    app.listen(3001, () => {
-        console.log('Server running on port 3001');
+if (process.env.NODE_ENV === 'production') {
+    // Export the app for production (e.g., when using Phusion Passenger)
+    module.exports = app;
+}
+else {
+    // Start the server for local development and testing
+    app.listen(port, () => {
+        console.log(`Server is running on http://localhost:${port}`);
     });
 }
-module.exports = app;

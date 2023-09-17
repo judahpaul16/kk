@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build && node app.js",
-    "build": "tsc && cd frontend && npm run build && cd .. && shx cp -r frontend/build/* ../public_html",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc && cd frontend && npm run build && cd .. && shx cp -r frontend/build/* ../public_html && shx touch tmp/restart.txt",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "cd frontend && npm install && cd .."
   },
   "repository": {
     "type": "git",
