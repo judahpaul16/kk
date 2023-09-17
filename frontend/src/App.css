@@ -5,7 +5,7 @@
 }
 
 .App-logo {
-  height: 11vmin;
+  height: 8vmin;
   pointer-events: none;
 }
 
@@ -93,11 +93,6 @@
 
 .title-text {
   margin-left: 10px;
-}
-
-.App-logo {
-  height: 40px;
-  width: 40px;
 }
 
 .captcha-wrapper {
