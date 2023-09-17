@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { config } from 'dotenv';
-
-config({ path: '../../.env' });
 
 const Contact: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [error, setError] = useState('');
+  const [recaptchaValue, setRecaptchaValue] = useState('');
 
+  const handleRecaptchaChange = (value: string | null) => {
+    setRecaptchaValue(value ? value : '');
+  };
+  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -17,22 +19,24 @@ const Contact: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
       setError('All fields are required.');
       return;
     }
+    
     // Make API call to send email
     const response = await fetch('/send-email', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            },
-        body: JSON.stringify(formData),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ ...formData, recaptchaValue }), // include recaptchaValue
     });
+  
     const data = await response.json();
+  
     if (data.status === 'success') {
-        closeModal();
-        }
-    else if (data.status === 'fail') {
-        setError('Something went wrong. Please try again.');
+      closeModal();
+    } else if (data.status === 'fail') {
+      setError('Something went wrong. Please try again.');
     }
-  };
+  };  
 
   return (
     <div className="modal">
@@ -44,7 +48,7 @@ const Contact: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
           <input type="email" name="email" placeholder="Email" onChange={handleInputChange} />
           <textarea name="message" placeholder="Your Message" onChange={handleInputChange}></textarea>
           <div className="captcha-wrapper">
-            <ReCAPTCHA sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY || ''} /> 
+            <ReCAPTCHA sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY || ''} onChange={handleRecaptchaChange} /> 
           </div>
           <button type="button" className='btn' onClick={handleSubmit}>Submit</button>
           <button type="button" className='btn btn-cancel' onClick={closeModal}>Cancel</button>
