@@ -10,10 +10,10 @@ dotenv.config({ path: '.env' });
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '../public_html')));
+app.use(express.static(path.join(__dirname, 'frontend/build')));
 const apiKey = process.env.SENDGRID_API_KEY;
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public_html', 'index.html'));
+    res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
 });
 app.post('/send-email', async (req, res) => {
     const { name, email, message, recaptchaValue } = req.body;
