@@ -5,12 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "npm run build && node dist/server.js",
+    "start": "npm run build && node server.js",
     "build": "tsc && cd frontend && npm run build && cd ..",
-    "postbuild": "run-script-os",
-    "postbuild:linux": "cp -r dist/ ../public_html/ && cp -r frontend/build/ ../public_html/",
-    "postbuild:win32": "echo \"Windows detected; not copying.\"",
-    "postbuild:default": "echo \"Not Linux; skipping copy.\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -46,9 +42,6 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
-    "@types/nodemailer": "^6.4.10",
-    "cross-env": "^7.0.3",
-    "run-script-os": "^1.1.6",
-    "shx": "^0.3.4"
+    "@types/nodemailer": "^6.4.10"
   }
 }

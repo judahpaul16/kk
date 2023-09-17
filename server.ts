@@ -4,6 +4,7 @@ import nodemailer from 'nodemailer';
 import fetch from 'node-fetch'; // For CAPTCHA verification
 import cors from 'cors';
 import path from 'path';
+import cluster from 'cluster';
 import { config } from 'dotenv';
 
 interface CaptchaData {
@@ -63,6 +64,10 @@ app.post('/send-email', async (req, res) => {
   });
 });
 
-app.listen(3001, () => {
-  console.log('Server running on port 3001');
-});
+if (cluster.isPrimary) {
+  app.listen(3001, () => {
+    console.log('Server running on port 3001');
+  });
+}
+
+export default app;
