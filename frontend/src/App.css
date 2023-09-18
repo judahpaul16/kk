@@ -115,3 +115,20 @@ textarea {
   height: 100px;
   width: 85%;
 }
+
+p {
+  margin-top: 0;
+}
+
+.social-icons {
+  border: 2px solid white;
+  margin-top: 1em;
+  padding: 0.25em;
+  border-radius: 10px;
+}
+
+.social-icons a {
+  margin: 1em;
+  font-size: 14pt;
+  color: white;
+}

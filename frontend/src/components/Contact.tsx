@@ -33,6 +33,7 @@ const Contact: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
   
     if (data.status === 'success') {
       closeModal();
+      alert('Email sent successfully.');
     } else if (data.status === 'fail') {
       setError('Something went wrong. Please try again.');
     }

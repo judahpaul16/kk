@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import Contact from './components/Contact';
+import 'font-awesome/css/font-awesome.min.css';
 import logo from './logo.svg';
 import './App.css';
-import Contact from './components/Contact';
 
 function App() {
   const [showModal, setShowModal] = useState(false);
@@ -23,6 +24,17 @@ function App() {
         <button className="btn" onClick={toggleModal}>
           Contact
         </button>
+        <div className="social-icons">
+          <a href="https://www.facebook.com/kevin.kirton" target="_blank" rel="noreferrer">
+            <i className="fa fa-facebook"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/kirton/" target="_blank" rel="noreferrer">
+            <i className="fa fa-linkedin"></i>
+          </a>
+          <a href="https://www.instagram.com/i_b_kev/" target="_blank" rel="noreferrer">
+            <i className="fa fa-instagram"></i>
+          </a>
+        </div>
       </header>
       {showModal && <Contact closeModal={toggleModal} />}
     </div>
