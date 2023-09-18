@@ -1,4 +1,6 @@
-# KK.com Deployment with Phusion Passenger
+# KevinKirton.com
+
+## Deployment with Phusion Passenger
 
 1. Install
     
