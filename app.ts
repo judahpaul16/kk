@@ -54,9 +54,9 @@ app.post('/send-email', async (req: any, res: any) => {
     });
 
     const mailOptions = {
-      from: 'no-reply@kevinkirton.com',
+      from: 'noreply@kevinkirton.com',
       to: 'me@kevinkirton.com',
-      subject: 'New Contact Message',
+      subject: 'New Contact Message | KevinKirton.com',
       text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
     };
 
