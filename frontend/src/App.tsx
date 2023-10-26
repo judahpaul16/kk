@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Contact from './components/Contact';
+import Countdown from './components/Countdown';
 import 'font-awesome/css/font-awesome.min.css';
 import logo from './logo.svg';
 import './App.css';
@@ -36,6 +37,9 @@ function App() {
           </a>
         </div>
       </header>
+      <div className="countdown-container">
+        <Countdown />
+      </div>
       {showModal && <Contact closeModal={toggleModal} />}
     </div>
   );
